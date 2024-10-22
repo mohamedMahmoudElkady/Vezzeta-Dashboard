@@ -1,18 +1,71 @@
 <div *ngIf="users.length; else noUsers">
-    <ul>
-      <li *ngFor="let user of users">
-        <div class="user">
-          <p><i class="fa-solid fa-user"></i> username: {{user.name}}</p>
-          <p><i class="fa-solid fa-envelope"></i> Email: {{user.email}}</p>
-          <p><i class="fa-solid fa-calendar-days"></i> Birtdate: {{user.birthDate}}</p>
-          <p><i class="fa-solid fa-mars" *ngIf="user.gender=='Male'"></i><i class="fa-solid fa-venus" *ngIf="user.gender=='Female'"></i> Gender: {{user.gender}}</p>
-          <p><i class="fa-solid fa-phone"></i> Phone: {{user.phone}}</p>
+  <ul>
+    <li *ngFor="let user of users">
+      <div class="user">
+        <p><i class="fa-solid fa-user"></i> username: {{ user.name }}</p>
+        <p><i class="fa-solid fa-envelope"></i> Email: {{ user.email }}</p>
+        <p><i class="fa-solid fa-calendar-days"></i> Birthdate: {{ user.birthDate }}</p>
+        <p>
+          <i
+            class="fa-solid fa-mars"
+            *ngIf="user.gender == 'Male'"
+          ></i>
+          <i
+            class="fa-solid fa-venus"
+            *ngIf="user.gender == 'Female'"
+          ></i>
+          Gender: {{ user.gender }}
+        </p>
+        <p><i class="fa-solid fa-phone"></i> Phone: {{ user.phone }}</p>
+        <div class="icons">
+          <i
+            class="fa-solid fa-pen-to-square"
+            (click)="editUser(user)"
+          ></i>
+          <i
+            class="fa-solid fa-trash"
+            (click)="deleteUser(user.id)"
+          ></i>
         </div>
+      </div>
     </li>
-    </ul>
-  </div>
-  
-  <ng-template #noUsers>
-    <p>No users found.</p>
-  </ng-template>
-  
+  </ul>
+</div>
+
+<ng-template #noUsers>
+  <p>No users found.</p>
+</ng-template>
+
+<!-- Edit User Form -->
+<div *ngIf="editingUser" class="edit-container">
+  <div class="">
+  <h3 class="text-center pt-2">Edit User</h3>
+  <form (ngSubmit)="saveUser()" class="edit-form ">
+    <label>
+      Name:
+      <input [(ngModel)]="editingUser.name" name="name" required class="form-control"/>
+    </label>
+    <label>
+      Email:
+      <input [(ngModel)]="editingUser.email" name="email" required class="form-control"/>
+    </label>
+    <label>
+      Birthdate:
+      <input [(ngModel)]="editingUser.birthDate" name="birthDate" type="date" class="form-control"/>
+    </label>
+    <label>
+      Gender:
+      <select [(ngModel)]="editingUser.gender" name="gender"class=" form-control">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+    </label>
+    <label>
+      Phone:
+      <input [(ngModel)]="editingUser.phone" name="phone" class="form-control"/>
+    </label>
+    <button type="submit" class="btn btn-success">Save <i class="fa-solid fa-square-check text-white p-1"></i></button>
+    <button type="button" class="btn btn-danger" (click)="cancelEdit()">Cancel <i class="fa-solid fa-delete-left text-white p-2"></i></button>
+  </form>
+</div>
+</div>

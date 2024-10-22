@@ -27,7 +27,8 @@
           </svg>
           <span class="navigation-item-title">Dashboard</span>
         </a>
-        <a href="#" class="navigation-item ">
+      </div>
+      <!-- <a href="#" class="navigation-item ">
           <svg
             width="24"
             height="24"
@@ -130,10 +131,10 @@
             />
           </svg>
           <span class="navigation-item-title">Notifications</span>
-        </a>
-      </div>
+        </a>-->
+
       <div class="navigation-bottom">
-        <a href="#" class="navigation-item">
+        <!-- <a href="#" class="navigation-item">
           <svg
             width="24"
             height="24"
@@ -158,9 +159,9 @@
           </svg>
 
           <span class="navigation-item-title">Settings</span>
-        </a>
+        </a> -->
         <a href="#" class="navigation-item">
-          <svg
+          <!-- <svg
             viewBox="0 0 36 36"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -214,14 +215,15 @@
                 ></rect>
               </g>
             </g>
-          </svg>
+          </svg> -->
+          <img src="favicon-48x48.png" class="avatar" />
           <span class="navigation-item-title">Your Profile</span>
         </a>
       </div>
     </nav>
   </header>
   <div class="window-panel">
-    <img src="whitelogowithdotcom.png" alt="">
+    <img src="whitelogowithdotcom.png" alt="" />
     <!-- <div class="search">
       <input type="type" class="search-input" placeholder="Filter..." />
     </div> -->
@@ -236,7 +238,9 @@
             [ngClass]="{ active: activeTab === 'Users' }"
             >Users</a
           >
-          <button class="tree-branch-button"><i class="fa-solid fa-users"></i></button>
+          <button class="tree-branch-button">
+            <i class="fa-solid fa-users"></i>
+          </button>
         </div>
       </li>
       <li class="tree-branch" (click)="selectTab('Doctors')">
@@ -248,18 +252,23 @@
             (click)="$event.preventDefault()"
             >Doctors</a
           >
-          <button class="tree-branch-button"><i class="fa-solid fa-user-doctor"></i></button>
+          <button class="tree-branch-button">
+            <i class="fa-solid fa-user-doctor"></i>
+          </button>
         </div>
-      
-				
-				
       </li>
       <li class="tree-branch" (click)="selectTab('Appointments')">
         <div class="tree-branch-action">
-          <a href="#" class="tree-branch-link"
-		  [ngClass]="{ active: activeTab === 'Appointments' }"
-		  (click)="$event.preventDefault()">Appointments</a>
-          <button class="tree-branch-button"><i class="fa-solid fa-calendar-check"></i></button>
+          <a
+            href="#"
+            class="tree-branch-link"
+            [ngClass]="{ active: activeTab === 'Appointments' }"
+            (click)="$event.preventDefault()"
+            >Appointments</a
+          >
+          <button class="tree-branch-button">
+            <i class="fa-solid fa-calendar-check"></i>
+          </button>
         </div>
       </li>
       <!-- <li class="tree-branch">
@@ -288,8 +297,7 @@
     </ul>
   </div>
   <main class="window-main">
-        <div class="window-main-body">
-      
+    <div class="window-main-body">
       <div class="editor-textarea">
         <div
           class="editor-textarea-editable"
