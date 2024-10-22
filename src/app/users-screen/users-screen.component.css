@@ -1,0 +1,16 @@
+.user{
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 5px #000;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    width: 300px;
+}
+ul{
+    list-style-type: none;
+}
+i{
+    font-size: 16px;
+    color:#19194a;
+}

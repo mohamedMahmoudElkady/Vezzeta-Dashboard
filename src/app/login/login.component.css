@@ -1,0 +1,131 @@
+.body {
+    background-color: rgb(226, 230, 234);
+    height: 100vh;
+
+}
+
+.log-input {
+    border: 1px solid #ccc;
+    padding: 4px;
+    border-radius: 5px;
+}
+
+.log-input:focus {
+    border-color: rgb(74, 74, 218);
+    outline: none;
+    box-shadow: 0 0 1px rgb(87, 87, 211);
+    border-width: 1px;
+}
+
+.log-btn {
+    color: white;
+    background-color: rgb(239, 15, 15);
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.log-btn:hover {
+    background-color: rgb(239, 15, 15);
+    color: white;
+
+}
+
+.star {
+    color: rgb(239, 15, 15);
+}
+
+.chk-label {
+    color: rgb(102, 93, 93);
+    font-size: 15px;
+    /* font-weight: in; */
+    margin-left: 10px;
+    display: inline;
+}
+
+.custom-checkbox {
+    width: 15px;
+    height: 15px;
+    background-color: rgb(187, 184, 184) !important;
+    cursor: pointer;
+
+}
+
+.forget-link {
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.col-3-5 {
+    flex: 0 0 29%;
+    max-width: 29.17%;
+}
+
+@media (max-width: 768px) {
+    .col-3-5 {
+        flex: 0 0 60%;
+        max-width: 60%;
+    }
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.separator-line {
+    flex: 1;
+    border-top: 2px solid #ccc;
+}
+
+.separator-text {
+    padding: 0 10px;
+    border-radius: 50%;
+    background-color: white;
+    position: relative;
+    color: #b8b7b7;
+    z-index: 1;
+    border: 2px solid #ccc;
+}
+
+.facebook-btn {
+    background-color: #4267B2;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 5px;
+    font-size: 14px;
+    text-decoration: none;
+    border: none;
+    width: 75%;
+
+}
+
+.facebook-btn .fb-icon {
+    margin-right: 10px;
+}
+
+.facebook-btn .separator {
+    border-left: 1px solid white;
+    height: 20px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    margin-right: 12%;
+}
+
+.facebook-btn:hover {
+    background-color: #365899;
+}
+
+.new-user {
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+.new-user a {
+    text-decoration: none;
+    border-bottom: 2px solid red;
+    font-size: 12px;
+    padding-bottom: 2px;
+}

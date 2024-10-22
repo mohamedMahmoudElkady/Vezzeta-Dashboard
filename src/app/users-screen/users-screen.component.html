@@ -1,0 +1,18 @@
+<div *ngIf="users.length; else noUsers">
+    <ul>
+      <li *ngFor="let user of users">
+        <div class="user">
+          <p><i class="fa-solid fa-user"></i> username: {{user.name}}</p>
+          <p><i class="fa-solid fa-envelope"></i> Email: {{user.email}}</p>
+          <p><i class="fa-solid fa-calendar-days"></i> Birtdate: {{user.birthDate}}</p>
+          <p><i class="fa-solid fa-mars" *ngIf="user.gender=='Male'"></i><i class="fa-solid fa-venus" *ngIf="user.gender=='Female'"></i> Gender: {{user.gender}}</p>
+          <p><i class="fa-solid fa-phone"></i> Phone: {{user.phone}}</p>
+        </div>
+    </li>
+    </ul>
+  </div>
+  
+  <ng-template #noUsers>
+    <p>No users found.</p>
+  </ng-template>
+  

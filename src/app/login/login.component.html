@@ -1,0 +1,51 @@
+<div class="container-fluid d-flex justify-content-center align-items-center vh-100 bg-light">
+  <div class="row justify-content-center col-lg-6 col-md-8 col-sm-10">
+    <div class="col-12 p-5 rounded-3 shadow bg-white">
+      <div class="bg-primary text-center text-white py-3 fs-4 rounded">Login</div>
+      
+      <!-- Form with ngSubmit to handle login -->
+      <form (ngSubmit)="handleLogin()">
+        <div class="row justify-content-center mt-4">
+          <div class="col-9 text-muted">
+            Email<span class="text-danger">*</span>
+            <input
+              class="form-control mt-2"
+              type="email"
+              placeholder="Enter Email"
+              [(ngModel)]="email"
+              name="email"
+              required
+            />
+          </div>
+        </div>
+        <div class="row justify-content-center mt-4">
+          <div class="col-9 text-muted">
+            Password<span class="text-danger">*</span>
+            <input
+              class="form-control mt-2"
+              type="password"
+              placeholder="Enter Password"
+              [(ngModel)]="password"
+              name="password"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="row justify-content-center mt-2">
+          <div class="col-9 text-danger">
+            {{ errorMessage }} <!-- Display error message if any -->
+          </div>
+        </div>
+
+        <div class="row justify-content-center mt-4">
+          <div class="col-9">
+            <button type="submit" class="btn w-100" style="background-color: rgb(239, 15, 15);color:white">
+              LOGIN
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

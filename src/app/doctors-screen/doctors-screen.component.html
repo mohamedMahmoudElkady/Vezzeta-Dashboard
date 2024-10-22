@@ -1,0 +1,12 @@
+<div *ngIf="doctors.length; else noDoctors">
+    <ul>
+      <li *ngFor="let user of doctors">
+        <strong>{{ user.name }}</strong> - {{ user.email }}
+      </li>
+    </ul>
+  </div>
+  
+  <ng-template #noDoctors>
+    <p>No doctors found.</p>
+  </ng-template>
+  
