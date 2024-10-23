@@ -1,0 +1,40 @@
+<div *ngIf="doctor; else noDoctor">
+    <!-- <h2>Doctor Profile</h2>
+    <p><strong>Name:</strong> {{ doctor!.name }}</p>
+    <p><strong>Email:</strong> {{ doctor!.email }}</p>
+    <p><strong>Specialization:</strong> {{ doctor!.specialization }}</p>
+    <p><strong>Phone:</strong> {{ doctor!.phone }}</p>
+    <p><strong>Qualifications:</strong> {{ doctor!.qualifications }}</p>
+    <p><strong>Clinic Location:</strong> {{ doctor!.clinicLocation }}</p>
+    <p><strong>Gender:</strong> {{ doctor!.gender }}</p>
+    <p><strong>Cost:</strong> {{ doctor!.cost }}</p>
+    <p><strong>Image</strong> <img src="{{ doctor!.imageUrl }}" alt=""></p>
+  </div> -->
+  <div class="profile-container">
+  <h2>Doctor Profile</h2>
+  <div class="card" style="width: 20rem;">
+    <img class="card-img-top" src="{{ doctor!.imageUrl }}" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">{{ doctor!.name }} <i class="fa-solid fa-signature"></i></h5>
+      <div class="card-text">
+        <ul>
+        <li><strong>Specialization:</strong> {{ doctor!.specialization }} <i class="fa-solid fa-stethoscope"></i></li>
+        <li><strong>Phone:</strong> {{ doctor!.phone }} <i class="fa-solid fa-phone"></i></li>
+        <li><strong>Qualifications:</strong> {{ doctor!.qualifications }} <i class="fa-solid fa-certificate"></i></li>
+        <li><strong>Clinic Location:</strong> {{ doctor!.clinicLocation }} <i class="fa-solid fa-location-dot"></i></li>
+        <li><strong>Gender:</strong> {{ doctor!.gender }} <i class="fa-solid fa-mars" *ngIf="doctor!.gender == 'Male'"></i><i class="fa-solid fa-venus" *ngIf="doctor!.gender == 'Female'"></i></li>
+        <li><strong>Cost:</strong> {{ doctor!.Cost}} <i class="fa-solid fa-money-bill"></i></li>
+    </ul>
+</div>
+      <button  class="btn btn-primary" (click)="editProfile()">Edit Profile <i class="fa-solid fa-pen-to-square"></i></button>
+    </div>
+  </div>
+  <div *ngIf="isEditing">
+    <app-edit-doctor-profile [doctor]="doctor"></app-edit-doctor-profile>
+  </div>
+  </div>
+</div>
+  <ng-template #noDoctor>
+    <p>{{ errorMessage }}</p>
+  </ng-template>
+  

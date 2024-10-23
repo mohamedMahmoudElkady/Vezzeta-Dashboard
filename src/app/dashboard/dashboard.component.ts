@@ -5,16 +5,25 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UsersScreenComponent } from "../users-screen/users-screen.component";
 import { DoctorsScreenComponent } from '../doctors-screen/doctors-screen.component';
+import { AppUser } from '../models/app-user.interface';
+import { DoctorProfileComponent } from "../doctor-profile/doctor-profile.component";
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [FormsModule, CommonModule, UsersScreenComponent, DoctorsScreenComponent],
+  imports: [FormsModule, CommonModule, UsersScreenComponent, DoctorsScreenComponent, DoctorProfileComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
-  user: User | null = null;
+  user: AppUser | null = null;
+  activeTab: string = ''; // Default tab
 
+  isAdmin(): boolean {
+    return this.user?.role === 'admin';
+  }
+  isDoctor(): boolean {
+    return this.user?.role === 'doctor';
+  }
   // Method to toggle the expanded state of a branch
   
   constructor(private authService: AuthService) {}
@@ -24,8 +33,10 @@ export class DashboardComponent implements OnInit {
       this.user = user;
       console.log('Current user:', this.user);
     });
+    if (this.user) {
+      this.activeTab = (this.user.role === 'admin') ? 'Users' : 'Manage Profile';
+    }
   }
-  activeTab: string = 'Users'; // Default tab
 
   // Method to select a tab
   selectTab(tab: string) {

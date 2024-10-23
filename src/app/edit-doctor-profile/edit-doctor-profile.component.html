@@ -1,0 +1,48 @@
+<!-- edit-doctor-profile.component.html -->
+<div class="edit-profile-container">
+    <h2>Edit Profile</h2>
+    <form (ngSubmit)="updateProfile()">
+      <div>
+        <label for="name">Name:</label>
+        <input id="name" [(ngModel)]="updatedDoctor.name" name="name" required class="form-control"/>
+      </div>
+      <!-- <div>
+        <label for="email">Email:</label>
+        <class="form-control" id="email" [(ngModel)]="updatedDoctor.email" name="email" required type="email" />
+      </div> -->
+      <div>
+        <label for="specialization">Specialization:</label>
+        <input id="specialization" [(ngModel)]="updatedDoctor.specialization" name="specialization" required class="form-control"/>
+      </div>
+      <div>
+        <label for="phone">Phone:</label>
+        <input id="phone" [(ngModel)]="updatedDoctor.phone" name="phone" required class="form-control"/>
+      </div>
+      <div>
+        <label for="qualifications">Qualifications:</label>
+        <input id="qualifications" [(ngModel)]="updatedDoctor.qualifications" name="qualifications" required class="form-control"/>
+      </div>
+      <div>
+        <label for="clinicLocation">Clinic Location:</label>
+        <input id="clinicLocation" [(ngModel)]="updatedDoctor.clinicLocation" name="clinicLocation" required class="form-control"/>
+      </div>
+      <div>
+        <label for="gender">Gender:</label>
+        <select id="gender" [(ngModel)]="updatedDoctor.gender" name="gender" required class="form-control">
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+      </div>
+      <div>
+        <label for="cost">Cost:</label>
+        <input id="cost" [(ngModel)]="updatedDoctor.Cost" name="cost" type="number" required class="form-control"/>
+      </div>
+      <div>
+        <label for="imageUrl">Image:</label>
+        <input id="imageUrl" (change)="onImageSelected($event)" name="imageUrl" type="file" required class="form-control"/>
+      </div>
+      <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+      <div *ngIf="errorMessage">{{ errorMessage }}</div>
+    </form>
+  </div>
+  

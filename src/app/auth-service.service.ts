@@ -1,24 +1,24 @@
 // auth.service.ts
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { User } from '@angular/fire/auth';
+import { AppUser } from './models/app-user.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private userData = new BehaviorSubject<User | null>(null); // Holds the logged-in user data
+  private userData = new BehaviorSubject<AppUser | null>(null);
   currentUser$ = this.userData.asObservable(); // Expose as observable
 
-  setUser(user: User) {
+  setUser(user: AppUser) {
     this.userData.next(user);
   }
 
-  getUser(): User | null {
+  getUser(): AppUser | null {
     return this.userData.value;
   }
 
-  clearUser() {
-    this.userData.next(null);
-  }
+  // clearUser() {
+  //   this.userData.next(null);
+  // }
 }
