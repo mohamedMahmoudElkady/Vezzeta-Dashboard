@@ -1,0 +1,58 @@
+.user{
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 5px #000;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    width: 300px;
+}
+ul{
+    list-style-type: none;
+}
+i{
+    font-size: 16px;
+    color:#19194a;
+}
+.icons{
+    display: flex;
+    justify-content: end;
+    padding: 10px;
+    gap: 10px;
+    cursor: pointer;
+    
+}
+.edit-container{
+    display: flex;
+    flex-direction: column;
+    box-shadow: #3f5efb 0 0 5px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+.edit-container i{
+    cursor: pointer;
+}
+.edit-container i:hover{
+    color: #3f5efb;
+}
+.edit-form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+
+}
+p>i{
+    font-size: 20px;
+}
+.icons>i{
+    font-size: 20px;
+}
+.icons>.fa-pen-to-square:hover{
+    color: green;
+}
+.icons>.fa-trash:hover{
+    color: red;
+}

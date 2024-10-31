@@ -1,0 +1,8 @@
+<div *ngIf="appointments$ | async as appointments">
+    <div *ngFor="let appointment of appointments">
+      <p>Doctor: {{ appointment.doctorName }}</p>
+      <p>Patient: {{ appointment.patientName }}</p>
+      <p>Time: {{ appointment.appointmentTime | date: 'medium' }}</p>
+    </div>
+  </div>
+  

@@ -84,6 +84,20 @@
           </button>
         </div>
       </li>
+      <li class="tree-branch" (click)="selectTab('Total Revenue')" *ngIf="isAdmin()">
+        <div class="tree-branch-action">
+          <a
+            href="#"
+            class="tree-branch-link"
+            [ngClass]="{ active: activeTab === 'Total Revenue' }"
+            (click)="$event.preventDefault()"
+            >Total Revenue</a
+          >
+          <button class="tree-branch-button">
+            <i class="fa-solid fa-dollar-sign"></i>
+          </button>
+        </div>
+      </li>
       <li class="tree-branch" (click)="selectTab('Manage Profile')" *ngIf="isDoctor()">
         <div class="tree-branch-action">
           <a
@@ -131,6 +145,13 @@
           <ng-container *ngIf="activeTab === 'Manage Profile'">
             <app-doctor-profile></app-doctor-profile>
           </ng-container>
+          <ng-container *ngIf="activeTab === 'Appointments'">
+            <app-appointments></app-appointments>
+          </ng-container>
+          <ng-container *ngIf="activeTab === 'Your Appointments'">
+            <app-doctor-appointments></app-doctor-appointments>
+          </ng-container>
+
           <!-- <h1>What web designers can learn from artists - from Van Gogh to Lloyd Wright</h1>
 						<p class="leading">Art in it's classic form, like painting and sculpting, is not
 							that different to the creations of web and UI designers. Even though their

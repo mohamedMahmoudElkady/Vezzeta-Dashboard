@@ -7,10 +7,12 @@ import { UsersScreenComponent } from "../users-screen/users-screen.component";
 import { DoctorsScreenComponent } from '../doctors-screen/doctors-screen.component';
 import { AppUser } from '../models/app-user.interface';
 import { DoctorProfileComponent } from "../doctor-profile/doctor-profile.component";
+import { AppointmentsComponent } from "../appointments/appointments.component";
+import { DoctorAppointmentsComponent } from "../doctor-appointments/doctor-appointments.component";
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [FormsModule, CommonModule, UsersScreenComponent, DoctorsScreenComponent, DoctorProfileComponent],
+  imports: [FormsModule, CommonModule, UsersScreenComponent, DoctorsScreenComponent, DoctorProfileComponent, AppointmentsComponent, DoctorAppointmentsComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })

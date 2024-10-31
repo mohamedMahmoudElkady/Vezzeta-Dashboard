@@ -1,7 +1,37 @@
 <div *ngIf="doctors.length; else noDoctors">
     <ul>
       <li *ngFor="let user of doctors">
-        <strong>{{ user.name }}</strong> - {{ user.email }}
+        <div class="user">
+          <img src={{user.imageUrl}} class="img-fluid " style="width: 100px; height: 100px; border-radius: 50px;justify-self: center;align-self: center;">
+          <p><i class="fa-solid fa-user"></i> Doctor: {{ user.name }}</p>
+          <p><i class="fa-solid fa-envelope"></i> Email: {{ user.email }}</p>
+          <p><i class="fa-solid fa-money-bill"></i>Cost: {{ user.Cost }}</p>
+          <p>
+            <i
+              class="fa-solid fa-mars"
+              *ngIf="user.gender == 'Male'"
+            ></i>
+            <i
+              class="fa-solid fa-venus"
+              *ngIf="user.gender == 'Female'"
+            ></i>
+            Gender: {{ user.gender }}
+          </p>
+          <p><i class="fa-solid fa-phone"></i> Phone: {{ user.phone }}</p>
+          <p><i class="fa-solid fa-location-dot"></i>clinic location: {{user.clinicLocation}}</p>
+          <p><i class="fa-solid fa-stethoscope"></i>Specialization: {{user.specialization}}</p>
+          <p><i class="fa-solid fa-certificate"></i>Certification: {{user.qualifications}}</p>
+          <div class="icons">
+            <i
+              class="fa-solid fa-pen-to-square"
+              (click)="editDoctor(user)"
+            ></i>
+            <i
+              class="fa-solid fa-trash"
+              (click)="deleteDoctor(user.id)"
+            ></i>
+          </div>
+        </div>
       </li>
     </ul>
   </div>
@@ -9,4 +39,32 @@
   <ng-template #noDoctors>
     <p>No doctors found.</p>
   </ng-template>
-  
+  <div *ngIf="editingDoctor" class="edit-container">
+    <div class="">
+    <h3 class="text-center pt-2">Edit Doctor</h3>
+    <form (ngSubmit)="saveDoctor()" class="edit-form ">
+      <label>
+        Name:
+        <input [(ngModel)]="editingDoctor.name" name="name" required class="form-control"/>
+      </label>
+      <label>
+        Cost:
+        <input [(ngModel)]="editingDoctor.Cost" name="Cost" type="number" class="form-control"/>
+      </label>
+      <label>
+        Phone:
+        <input [(ngModel)]="editingDoctor.phone" name="phone" class="form-control"/>
+      </label>
+      <label>
+        Clinic Location:
+        <input [(ngModel)]="editingDoctor.clinicLocation" name="clinicLocation" class="form-control"/>
+      </label>
+      <label>
+        Specialization:
+        <input [(ngModel)]="editingDoctor.specialization" name="specialization" class="form-control"/>
+      </label>
+      <button type="submit" class="btn btn-success">Save <i class="fa-solid fa-square-check text-white p-1"></i></button>
+      <button type="button" class="btn btn-danger" (click)="cancelEdit()">Cancel <i class="fa-solid fa-delete-left text-white p-2"></i></button>
+    </form>
+  </div>
+  </div>
