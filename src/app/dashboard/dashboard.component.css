@@ -16,7 +16,7 @@ img {
 }
 .window {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: 0px auto auto;
   grid-template-rows: 100vh;
 }
 .window-header {

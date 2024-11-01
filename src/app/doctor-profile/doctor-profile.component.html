@@ -1,40 +1,117 @@
-<div *ngIf="doctor; else noDoctor">
-    <!-- <h2>Doctor Profile</h2>
-    <p><strong>Name:</strong> {{ doctor!.name }}</p>
-    <p><strong>Email:</strong> {{ doctor!.email }}</p>
-    <p><strong>Specialization:</strong> {{ doctor!.specialization }}</p>
-    <p><strong>Phone:</strong> {{ doctor!.phone }}</p>
-    <p><strong>Qualifications:</strong> {{ doctor!.qualifications }}</p>
-    <p><strong>Clinic Location:</strong> {{ doctor!.clinicLocation }}</p>
-    <p><strong>Gender:</strong> {{ doctor!.gender }}</p>
-    <p><strong>Cost:</strong> {{ doctor!.cost }}</p>
-    <p><strong>Image</strong> <img src="{{ doctor!.imageUrl }}" alt=""></p>
+<div *ngIf="doctor; else noDoctor" class="profile-page">
+  <!-- <div class="profile-header text-center mb-4">
+    <h1>Dr\ {{ doctor.name }}</h1>
   </div> -->
-  <div class="profile-container">
-  <h2>Doctor Profile</h2>
-  <div class="card" style="width: 20rem;">
-    <img class="card-img-top" src="{{ doctor!.imageUrl }}" alt="Card image cap">
-    <div class="card-body">
-      <h5 class="card-title">{{ doctor!.name }} <i class="fa-solid fa-signature"></i></h5>
-      <div class="card-text">
-        <ul>
-        <li><strong>Specialization:</strong> {{ doctor!.specialization }} <i class="fa-solid fa-stethoscope"></i></li>
-        <li><strong>Phone:</strong> {{ doctor!.phone }} <i class="fa-solid fa-phone"></i></li>
-        <li><strong>Qualifications:</strong> {{ doctor!.qualifications }} <i class="fa-solid fa-certificate"></i></li>
-        <li><strong>Clinic Location:</strong> {{ doctor!.clinicLocation }} <i class="fa-solid fa-location-dot"></i></li>
-        <li><strong>Gender:</strong> {{ doctor!.gender }} <i class="fa-solid fa-mars" *ngIf="doctor!.gender == 'Male'"></i><i class="fa-solid fa-venus" *ngIf="doctor!.gender == 'Female'"></i></li>
-        <li><strong>Cost:</strong> {{ doctor!.Cost}} <i class="fa-solid fa-money-bill"></i></li>
-    </ul>
-</div>
-      <button  class="btn btn-primary" (click)="editProfile()">Edit Profile <i class="fa-solid fa-pen-to-square"></i></button>
+  <div class="profile-container container d-flex justify-content-center">
+    <div class=" profile-card">
+      <div class="card-body">
+        <div class="profile-image text-center">
+          <img [src]="doctor.imageUrl" alt="Doctor Image" class="rounded-circle mb-3 profile-img img-fluid" />
+        </div>
+        <form (ngSubmit)="saveProfile()">
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input
+              id="name"
+              [(ngModel)]="doctor.name"
+              name="name"
+              [disabled]="!isEditing"
+              required
+              class="form-control"
+            />
+          </div>
+          <div class="form-group">
+            <label for="specialization">Specialization:</label>
+            <input
+              id="specialization"
+              [(ngModel)]="doctor.specialization"
+              name="specialization"
+              [disabled]="!isEditing"
+              required
+              class="form-control"
+            />
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone:</label>
+            <input
+              id="phone"
+              [(ngModel)]="doctor.phone"
+              name="phone"
+              [disabled]="!isEditing"
+              required
+              class="form-control"
+            />
+          </div>
+          <div class="form-group">
+            <label for="qualifications">Qualifications:</label>
+            <input
+              id="qualifications"
+              [(ngModel)]="doctor.qualifications"
+              name="qualifications"
+              [disabled]="!isEditing"
+              required
+              class="form-control"
+            />
+          </div>
+          <div class="form-group">
+            <label for="clinicLocation">Clinic Location:</label>
+            <input
+              id="clinicLocation"
+              [(ngModel)]="doctor.clinicLocation"
+              name="clinicLocation"
+              [disabled]="!isEditing"
+              required
+              class="form-control"
+            />
+          </div>
+          <div class="form-group">
+            <label for="gender">Gender:</label>
+            <select
+              id="gender"
+              [(ngModel)]="doctor.gender"
+              name="gender"
+              [disabled]="!isEditing"
+              required
+              class="form-control"
+            >
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="cost">Cost:</label>
+            <input
+              id="cost"
+              [(ngModel)]="doctor.Cost"
+              name="cost"
+              type="number"
+              [disabled]="!isEditing"
+              required
+              class="form-control"
+            />
+          </div>
+          <div class="form-group" *ngIf="isEditing">
+            <label for="imageUrl">Image:</label>
+            <input id="imageUrl" (change)="onImageSelected($event)" name="imageUrl" type="file" class="form-control" />
+          </div>
+          <!-- Buttons -->
+          <div class="button-group text-center mt-3">
+            <button type="button" class="btn btn-primary me-2" *ngIf="!isEditing" (click)="editProfile()">
+              Edit Profile <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button type="submit" class="btn btn-success me-2" *ngIf="isEditing">
+              Save  <i class="fa-solid fa-check"></i>
+            </button>
+            <button type="button" class="btn btn-secondary" *ngIf="isEditing" (click)="cancelEdit()">
+              Cancel <i class="fa-solid fa-times"></i>
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
-  <div *ngIf="isEditing">
-    <app-edit-doctor-profile [doctor]="doctor"></app-edit-doctor-profile>
-  </div>
-  </div>
 </div>
-  <ng-template #noDoctor>
-    <p>{{ errorMessage }}</p>
-  </ng-template>
-  
+
+<ng-template #noDoctor>
+  <p>{{ errorMessage }}</p>
+</ng-template>

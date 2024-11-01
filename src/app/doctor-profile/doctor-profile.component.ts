@@ -1,28 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { Firestore, doc, getDoc } from '@angular/fire/firestore';
+import { Firestore, doc, getDoc, setDoc } from '@angular/fire/firestore';
 import { AuthService } from '../auth-service.service'; // Import your AuthService
 import { Doctor } from '../models/doctor.interface';
+import { getDownloadURL, ref, uploadBytes, getStorage } from '@angular/fire/storage';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { EditDoctorProfileComponent } from '../edit-doctor-profile/edit-doctor-profile.component';
 
 @Component({
   selector: 'app-doctor-profile',
   standalone: true,
-  imports: [FormsModule, CommonModule, EditDoctorProfileComponent],
+  imports: [FormsModule,CommonModule],
   templateUrl: './doctor-profile.component.html',
   styleUrls: ['./doctor-profile.component.css'],
 })
 export class DoctorProfileComponent implements OnInit {
-  doctor: Doctor | null = null; // Use the Doctor interface
+  doctor: Doctor = {} as Doctor; // Store doctor data here
   errorMessage: string = '';
-  isEditing: boolean = false; // Control the editing state
+  isEditing: boolean = false; // Track if fields are editable
+  selectedImage: File | null = null; // Store the selected file
 
   constructor(private firestore: Firestore, private authService: AuthService) {}
 
   async ngOnInit(): Promise<void> {
     const user = this.authService.getUser();
-
     if (user) {
       const uid = user.uid;
       await this.loadDoctorDetails(uid);
@@ -37,8 +37,7 @@ export class DoctorProfileComponent implements OnInit {
       const doctorDoc = await getDoc(doctorDocRef);
 
       if (doctorDoc.exists()) {
-        this.doctor = doctorDoc.data() as Doctor; // Cast the data to Doctor
-        console.log('Doctor details:', this.doctor);
+        this.doctor = doctorDoc.data() as Doctor;
       } else {
         this.errorMessage = 'Doctor not found in Firestore.';
       }
@@ -49,6 +48,56 @@ export class DoctorProfileComponent implements OnInit {
   }
 
   editProfile() {
-    this.isEditing = !this.isEditing;
+    this.isEditing = true;
+  }
+
+  cancelEdit() {
+    this.isEditing = false;
+    // Reload doctor data to discard unsaved changes
+    const user = this.authService.getUser();
+if (user) {
+  this.loadDoctorDetails(user.uid);
+} else {
+  this.errorMessage = 'User not logged in.';
+}
+  }
+
+  onImageSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.selectedImage = input.files[0];
+    }
+  }
+
+  async saveProfile() {
+    try {
+      // Upload new image if selected
+      if (this.selectedImage) {
+        const imageUrl = await this.uploadImage(this.selectedImage);
+        this.doctor.imageUrl = imageUrl;
+      }
+
+      // Update doctor data in Firestore
+      const doctorDocRef = doc(this.firestore, `doctor/${this.doctor.uid}`);
+      await setDoc(doctorDocRef, this.doctor, { merge: true });
+
+      alert('Profile updated successfully!');
+      this.isEditing = false; // Disable editing mode
+    } catch (error) {
+      this.errorMessage = 'Error updating profile. Please try again.';
+      console.error('Error updating profile:', error);
+    }
+  }
+
+  private async uploadImage(image: File): Promise<string> {
+    const storage = getStorage();
+    const storageRef = ref(storage, `images/${image.name}`);
+    try {
+      const snapshot = await uploadBytes(storageRef, image);
+      return await getDownloadURL(snapshot.ref);
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      throw error;
+    }
   }
 }

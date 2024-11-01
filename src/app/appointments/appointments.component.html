@@ -1,8 +1,23 @@
-<div *ngIf="appointments$ | async as appointments">
-    <div *ngFor="let appointment of appointments">
-      <p>Doctor: {{ appointment.doctorName }}</p>
-      <p>Patient: {{ appointment.patientName }}</p>
-      <p>Time: {{ appointment.appointmentTime | date: 'medium' }}</p>
-    </div>
-  </div>
-  
+<div *ngIf="appointments$ | async as appointments; else noAppointments">
+  <table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>Doctor</th>
+        <th>Patient</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let appointment of appointments; let i = index">
+        <td>{{i+1}}</td>
+        <td>{{ appointment.doctorName }}</td>
+        <td>{{ appointment.patientName }}</td>
+        <td>{{ appointment.appointmentTime | date: 'medium' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #noAppointments>
+  <p>No appointments found.</p>
+</ng-template>
