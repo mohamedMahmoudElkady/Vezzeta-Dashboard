@@ -1,7 +1,9 @@
+<h2 class="text-center">All Appointments</h2>
 <div *ngIf="appointments$ | async as appointments; else noAppointments">
   <table class="table table-bordered table-striped">
     <thead class="thead-dark">
       <tr>
+        <th>#</th> 
         <th>Doctor</th>
         <th>Patient</th>
         <th>Time</th>

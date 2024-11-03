@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Firestore, collection, getDocs, doc, getDoc, DocumentReference } from '@angular/fire/firestore';
+import { Firestore, collection, getDocs, doc, getDoc, DocumentReference, Timestamp, updateDoc } from '@angular/fire/firestore';
 import { AuthService } from '../auth-service.service';
 import { Observable, of } from 'rxjs';
-import { Appointment } from '../models/appointment.interface'; // Ensure the Appointment model is correctly defined
+import { Appointment } from '../models/appointment.interface';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -21,51 +21,61 @@ export class DoctorAppointmentsComponent implements OnInit {
   async ngOnInit() {
     const user = this.authService.getUser();
     if (user) {
-      const specificDoc = user.uid; // Get current user ID
-      console.log('Current User ID:', specificDoc); // Log user ID
+      const doctorRefPath = `doctor/${user.uid}`;
 
-      const appointmentsCollection = collection(this.firestore, 'appointments');
       try {
-        // Fetch all appointments
+        const appointmentsCollection = collection(this.firestore, 'appointments');
         const querySnapshot = await getDocs(appointmentsCollection);
-        
-        // Fetch patient names for appointments
+
         const appointmentsWithPatients: Appointment[] = [];
+        
         for (const docSnapshot of querySnapshot.docs) {
-          const appointmentData = docSnapshot.data() as any; // Explicitly type data as 'any'
+          const appointmentData = docSnapshot.data() as any;
+          const doctorIdRef = (appointmentData.doctorId as DocumentReference).path;
 
-          // Ensure doctorId is a DocumentReference and compare correctly
-          const doctorId = (appointmentData.doctorId as DocumentReference)?.id || appointmentData.doctorId; // Fallback in case it's already a string
-
-          if (doctorId === `doctor/${specificDoc}`) {
+          if (doctorIdRef === doctorRefPath) {
             const patientDocRef = doc(this.firestore, `User/${(appointmentData.patientId as DocumentReference).id}`);
             const patientDoc = await getDoc(patientDocRef);
 
-            // Check if the patient document exists and type the data correctly
             const patientData = patientDoc.exists() ? (patientDoc.data() as { name: string }) : { name: 'Unknown' };
+
+            const appointmentDate = (appointmentData.date as Timestamp).toDate();
 
             appointmentsWithPatients.push({
               id: docSnapshot.id,
               clinic: appointmentData.clinic,
-              doctorId: doctorId, // Use the string id
-              patientId: (appointmentData.patientId as DocumentReference).id, // Accessing the id of the reference directly
-              patientName: patientData.name, // Use the name from the patient data
-              date: appointmentData.date,
+              doctorId: doctorIdRef,
+              patientId: (appointmentData.patientId as DocumentReference).id,
+              patientName: patientData.name,
+              date: appointmentDate,
               notes: appointmentData.notes || '',
               status: appointmentData.status || ''
             });
           }
         }
 
-        console.log('Filtered Appointments with Patient Names:', appointmentsWithPatients); // Log appointments with patient names
-        this.appointments$ = of(appointmentsWithPatients); // Assign to appointments$ for the template
+        this.appointments$ = of(appointmentsWithPatients);
       } catch (error) {
         console.error('Error fetching appointments:', error);
-        this.appointments$ = of([]); // Handle errors gracefully
+        this.appointments$ = of([]);
       }
     } else {
       console.error('User not authenticated');
-      this.appointments$ = of([]); // Handle unauthenticated users
+      this.appointments$ = of([]);
+    }
+  }
+
+  // Method to update the status of an appointment
+  async updateStatus(appointmentId: string, newStatus: string) {
+    try {
+      const appointmentDocRef = doc(this.firestore, `appointments/${appointmentId}`);
+      await updateDoc(appointmentDocRef, { status: newStatus });
+      console.log(`Appointment ${appointmentId} status updated to ${newStatus}`);
+
+      // Optionally, refresh the appointments list after updating
+      this.ngOnInit(); // Re-fetch appointments to reflect the updated status
+    } catch (error) {
+      console.error(`Error updating appointment status:`, error);
     }
   }
 }
