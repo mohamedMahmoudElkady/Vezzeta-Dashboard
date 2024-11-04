@@ -1,0 +1,21 @@
+.revenue-container {
+    text-align: center;
+    margin: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  h2 {
+    color: #2d89ef;
+  }
+  p {
+    font-size: 1.2em;
+    color: #333;
+  }
+  canvas {
+    width: 100% !important; /* Force full width */
+    height: 400px !important; /* Set a specific height */
+  }
+  

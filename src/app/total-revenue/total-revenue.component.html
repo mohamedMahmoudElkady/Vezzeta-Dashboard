@@ -1,0 +1,16 @@
+<div class="revenue-container">
+  <h2>Total Revenue</h2>
+  <p>Total number of doctors: {{ totalDoctors }}</p>
+  <p>Total revenue from verified doctors: ${{ totalRevenue }}</p>
+
+  <div style="display: block">
+    <canvas
+        baseChart
+        [type]="chartType"
+        [data]="chartData"
+        [labels]="chartLabels"
+        [options]="chartOptions"
+      >
+      </canvas>
+  </div>
+</div>

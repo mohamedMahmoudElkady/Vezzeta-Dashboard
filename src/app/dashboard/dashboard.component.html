@@ -1,5 +1,5 @@
 <div class="window">
-   <header class="window-header">
+  <header class="window-header">
     <!-- <nav class="navigation">
       <div class="navigation-top">
         <a href="#" class="navigation-item active">
@@ -36,7 +36,7 @@
         </a>
       </div>
     </nav> -->
-  </header> 
+  </header>
   <div class="window-panel">
     <img src="vezeeta.png" alt="" />
     <ul class="tree">
@@ -70,7 +70,11 @@
           </button>
         </div>
       </li>
-      <li class="tree-branch" (click)="selectTab('Appointments')" *ngIf="isAdmin()">
+      <li
+        class="tree-branch"
+        (click)="selectTab('Appointments')"
+        *ngIf="isAdmin()"
+      >
         <div class="tree-branch-action">
           <a
             href="#"
@@ -84,7 +88,11 @@
           </button>
         </div>
       </li>
-      <li class="tree-branch" (click)="selectTab('Total Revenue')" *ngIf="isAdmin()">
+      <li
+        class="tree-branch"
+        (click)="selectTab('Total Revenue')"
+        *ngIf="isAdmin()"
+      >
         <div class="tree-branch-action">
           <a
             href="#"
@@ -98,7 +106,11 @@
           </button>
         </div>
       </li>
-      <li class="tree-branch" (click)="selectTab('Manage Profile')" *ngIf="isDoctor()">
+      <li
+        class="tree-branch"
+        (click)="selectTab('Manage Profile')"
+        *ngIf="isDoctor()"
+      >
         <div class="tree-branch-action">
           <a
             href="#"
@@ -112,7 +124,11 @@
           </button>
         </div>
       </li>
-      <li class="tree-branch" (click)="selectTab('Your Appointments')" *ngIf="isDoctor()">
+      <li
+        class="tree-branch"
+        (click)="selectTab('Your Appointments')"
+        *ngIf="isDoctor()"
+      >
         <div class="tree-branch-action">
           <a
             href="#"
@@ -131,11 +147,7 @@
   <main class="window-main">
     <div class="window-main-body">
       <div class="editor-textarea">
-        <div
-          class="editor-textarea-editable"
-          
-          spellcheck="false"
-        >
+        <div class="editor-textarea-editable" spellcheck="false">
           <ng-container *ngIf="activeTab === 'Users'">
             <app-users-screen></app-users-screen>
           </ng-container>
@@ -150,6 +162,9 @@
           </ng-container>
           <ng-container *ngIf="activeTab === 'Your Appointments'">
             <app-doctor-appointments></app-doctor-appointments>
+          </ng-container>
+          <ng-container *ngIf="activeTab === 'Total Revenue'">
+            <app-total-revenue></app-total-revenue>
           </ng-container>
 
           <!-- <h1>What web designers can learn from artists - from Van Gogh to Lloyd Wright</h1>

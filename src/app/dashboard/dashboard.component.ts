@@ -9,10 +9,11 @@ import { AppUser } from '../models/app-user.interface';
 import { DoctorProfileComponent } from "../doctor-profile/doctor-profile.component";
 import { AppointmentsComponent } from "../appointments/appointments.component";
 import { DoctorAppointmentsComponent } from "../doctor-appointments/doctor-appointments.component";
+import { TotalRevenueComponent } from "../total-revenue/total-revenue.component";
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [FormsModule, CommonModule, UsersScreenComponent, DoctorsScreenComponent, DoctorProfileComponent, AppointmentsComponent, DoctorAppointmentsComponent],
+  imports: [FormsModule, CommonModule, UsersScreenComponent, DoctorsScreenComponent, DoctorProfileComponent, AppointmentsComponent, DoctorAppointmentsComponent, TotalRevenueComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
