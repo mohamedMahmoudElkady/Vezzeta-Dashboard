@@ -3,28 +3,52 @@
 
   <div *ngIf="appointments$ | async as appointments; else noAppointments">
     <table class="table table-striped table-bordered">
-      <thead>
+      <thead class="thead-dark">
         <tr>
-          <th>#</th> 
-          <th>Patient Name</th>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Status</th>
-          <th>Actions</th>
+          <th scope="col">#</th>
+          <th scope="col">Patient Name</th>
+          <th scope="col">Date</th>
+          <th scope="col">Time</th>
+          <th scope="col">Status</th>
+          <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let appointment of appointments; index as i">
-          <td>{{ i + 1 }}</td>
+          <th scope="row">{{ i + 1 }}</th>
           <td>{{ appointment.patientName }}</td>
-          <td>{{ appointment.date | date: 'fullDate' }}</td>
-          <td>{{ appointment.date | date: 'shortTime' }}</td>
-          <td>{{ appointment.status || 'Pending' }}</td>
+          <td>{{ appointment.appointmentDate }}</td>
+          <td>{{ appointment.appointmentTime  }}</td>
+          <td>
+            <span 
+              [ngClass]="{
+                'badge bg-success': appointment.status === 'confirmed',
+                'badge bg-danger': appointment.status === 'cancelled',
+                'badge bg-secondary': !appointment.status || appointment.status === 'Pending'
+              }"
+            >
+              {{ appointment.status || 'Pending' }}
+            </span>
+          </td>
           <td class="text-center">
-            <div class="btn-group btn-group-sm " role="group">
-            <button class="btn btn-success btn-sm" (click)="updateStatus(appointment.id, 'confirmed')">Confirm <i class="fa-solid fa-check"></i></button>
-            <button class="btn btn-danger btn-sm" (click)="updateStatus(appointment.id, 'cancelled')">Cancel <i class="fa-solid fa-xmark"></i></button>
-          </div>
+            <div class="btn-group btn-group-sm" role="group">
+              <button 
+                class="btn btn-success btn-sm"
+                (click)="updateStatus(appointment.id, 'confirmed')"
+                title="Confirm Appointment"
+                [disabled]="appointment.status === 'confirmed'"
+              >
+                Confirm <i class="fa-solid fa-check"></i>
+              </button>
+              <button 
+                class="btn btn-danger btn-sm"
+                (click)="updateStatus(appointment.id, 'cancelled')"
+                title="Cancel Appointment"
+                [disabled]="appointment.status === 'cancelled'"
+              >
+                Cancel <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -32,6 +56,6 @@
   </div>
 
   <ng-template #noAppointments>
-    <p>No appointments found.</p>
+    <p class="text-muted">No appointments found.</p>
   </ng-template>
 </div>

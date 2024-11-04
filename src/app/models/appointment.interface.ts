@@ -6,6 +6,7 @@ export interface Appointment {
     patientId: string; // Assuming this is a string
     patientName: string; // Assuming this is a string
     date: Date; // Change to Date
+    time:string;
     notes: string; // Assuming this is a string
     status: string; // Assuming this is a string
   }

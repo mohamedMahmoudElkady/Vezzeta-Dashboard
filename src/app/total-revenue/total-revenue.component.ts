@@ -20,7 +20,7 @@ export class TotalRevenueComponent implements OnInit {
   public chartOptions: ChartConfiguration['options'] = {
     responsive: true,
   };
-  public chartLabels: string[] = ['$600','$3000', '$6000', '$9000'];
+  public chartLabels: string[] = ['$50','$100','$500', '$1000', '$2000'];
   public chartType: ChartType = 'bar';
   public chartData: ChartData<'bar', (number | [number, number] | Point | BubbleDataPoint | null)[], string> = {
     datasets: [
@@ -45,11 +45,11 @@ export class TotalRevenueComponent implements OnInit {
       );
       const verifiedCount = verifiedDocs.length;
 
-      this.totalRevenue = verifiedCount * 600;
+      this.totalRevenue = verifiedCount * 10;
 
       // Update chart data
       this.zone.run(() => {
-        this.chartData.datasets[0].data = [600,3000, 6000, 9000].map((milestone) =>
+        this.chartData.datasets[0].data = [50,100,500, 1000, 2000].map((milestone) =>
           this.totalRevenue >= milestone ? milestone : 0
         );
       });
