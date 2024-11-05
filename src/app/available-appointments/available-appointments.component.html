@@ -1,0 +1,36 @@
+<div class="appointment-form-container">
+    <h2>Add Available Appointment</h2>
+    <form [formGroup]="appointmentForm" (ngSubmit)="addAppointment()">
+      <div class="form-group">
+        <label for="appointmentDate">Select Appointment Date and Time</label>
+        <input
+          type="datetime-local"
+          id="appointmentDate"
+          formControlName="appointmentDate"
+          class="form-control"
+        />
+      </div>
+      <button type="submit" [disabled]="appointmentForm.invalid" class="btn btn-primary">
+        Add Appointment
+      </button>
+    </form>
+  </div>
+  
+  <div class="appointments-table">
+    <h2>Available Appointments</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Appointment Date and Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let appointment of availableAppointments; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ appointment.toDate() | date: 'medium' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

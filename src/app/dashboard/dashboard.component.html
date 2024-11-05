@@ -124,7 +124,7 @@
           </button>
         </div>
       </li>
-      <li
+      <li 
         class="tree-branch"
         (click)="selectTab('Your Appointments')"
         *ngIf="isDoctor()"
@@ -141,7 +141,26 @@
             <i class="fa-solid fa-calendar-check"></i>
           </button>
         </div>
+        
       </li>
+      <li 
+      class="tree-branch"
+      (click)="selectTab('Availble Appointments')"
+      *ngIf="isDoctor()"
+    >
+      <div class="tree-branch-action">
+        <a
+          href="#"
+          class="tree-branch-link"
+          [ngClass]="{ active: activeTab === 'Availble Appointments' }"
+          (click)="$event.preventDefault()"
+          >Availble Appointments</a
+        >
+        <button class="tree-branch-button">
+          <i class="fa-solid fa-clock"></i>
+        </button>
+      </div>
+    </li>
       <li (click)="logout()">
         <div >
           <a
@@ -156,6 +175,7 @@
           </button>
         </div>
       </li>
+
     </ul>
   </div>
   <main class="window-main">
@@ -176,6 +196,9 @@
           </ng-container>
           <ng-container *ngIf="activeTab === 'Your Appointments'">
             <app-doctor-appointments></app-doctor-appointments>
+          </ng-container>
+          <ng-container *ngIf="activeTab === 'Availble Appointments'">
+            <app-available-appointments></app-available-appointments>
           </ng-container>
           <ng-container *ngIf="activeTab === 'Total Revenue'">
             <app-total-revenue></app-total-revenue>
