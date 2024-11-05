@@ -5,11 +5,12 @@ import { Doctor } from '../models/doctor.interface';
 import { getDownloadURL, ref, uploadBytes, getStorage } from '@angular/fire/storage';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr'; // Import ToastrService
 
 @Component({
   selector: 'app-doctor-profile',
   standalone: true,
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './doctor-profile.component.html',
   styleUrls: ['./doctor-profile.component.css'],
 })
@@ -19,7 +20,11 @@ export class DoctorProfileComponent implements OnInit {
   isEditing: boolean = false; // Track if fields are editable
   selectedImage: File | null = null; // Store the selected file
 
-  constructor(private firestore: Firestore, private authService: AuthService) {}
+  constructor(
+    private firestore: Firestore,
+    private authService: AuthService,
+    private toastr: ToastrService // Inject ToastrService
+  ) {}
 
   async ngOnInit(): Promise<void> {
     const user = this.authService.getUser();
@@ -28,6 +33,7 @@ export class DoctorProfileComponent implements OnInit {
       await this.loadDoctorDetails(uid);
     } else {
       this.errorMessage = 'User not logged in.';
+      this.toastr.error(this.errorMessage, 'Error');
     }
   }
 
@@ -40,10 +46,12 @@ export class DoctorProfileComponent implements OnInit {
         this.doctor = doctorDoc.data() as Doctor;
       } else {
         this.errorMessage = 'Doctor not found in Firestore.';
+        this.toastr.error(this.errorMessage, 'Error');
       }
     } catch (error) {
       this.errorMessage = 'Error fetching doctor details.';
       console.error('Error:', error);
+      this.toastr.error(this.errorMessage, 'Error');
     }
   }
 
@@ -53,13 +61,13 @@ export class DoctorProfileComponent implements OnInit {
 
   cancelEdit() {
     this.isEditing = false;
-    // Reload doctor data to discard unsaved changes
     const user = this.authService.getUser();
-if (user) {
-  this.loadDoctorDetails(user.uid);
-} else {
-  this.errorMessage = 'User not logged in.';
-}
+    if (user) {
+      this.loadDoctorDetails(user.uid);
+    } else {
+      this.errorMessage = 'User not logged in.';
+      this.toastr.error(this.errorMessage, 'Error');
+    }
   }
 
   onImageSelected(event: Event) {
@@ -71,21 +79,21 @@ if (user) {
 
   async saveProfile() {
     try {
-      // Upload new image if selected
       if (this.selectedImage) {
         const imageUrl = await this.uploadImage(this.selectedImage);
         this.doctor.imageUrl = imageUrl;
       }
 
-      // Update doctor data in Firestore
       const doctorDocRef = doc(this.firestore, `doctor/${this.doctor.uid}`);
       await setDoc(doctorDocRef, this.doctor, { merge: true });
 
-      alert('Profile updated successfully!');
+      // Use toastr for success notification
+      this.toastr.success('Profile updated successfully!', 'Success');
       this.isEditing = false; // Disable editing mode
     } catch (error) {
       this.errorMessage = 'Error updating profile. Please try again.';
       console.error('Error updating profile:', error);
+      this.toastr.error(this.errorMessage, 'Error');
     }
   }
 

@@ -10,6 +10,9 @@ import { DoctorProfileComponent } from "../doctor-profile/doctor-profile.compone
 import { AppointmentsComponent } from "../appointments/appointments.component";
 import { DoctorAppointmentsComponent } from "../doctor-appointments/doctor-appointments.component";
 import { TotalRevenueComponent } from "../total-revenue/total-revenue.component";
+import { ToastrService } from 'ngx-toastr'; // Import ToastrService
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -29,7 +32,7 @@ export class DashboardComponent implements OnInit {
   }
   // Method to toggle the expanded state of a branch
   
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService,private router: Router, private toastr: ToastrService) {}
   ngOnInit() {
     // Subscribe to the user data
     this.authService.currentUser$.subscribe((user) => {
@@ -44,6 +47,19 @@ export class DashboardComponent implements OnInit {
   // Method to select a tab
   selectTab(tab: string) {
     this.activeTab = tab;
+  }
+  async logout() {
+    try {
+      this.authService.logout();
+      // Show toast notification
+      this.toastr.success('Logged out successfully!', 'Success');
+  
+      // Redirect to the login page
+      this.router.navigate(['/login']); // Adjust the path as necessary
+    } catch (error) {
+      console.error('Logout error:', error);
+      this.toastr.error('Logout failed. Please try again.', 'Error');
+    }
   }
  
 }

@@ -6,6 +6,7 @@ import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 import { FirebaseError } from 'firebase/app';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth-service.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,8 @@ export class LoginComponent {
     private auth: Auth,
     private firestore: Firestore,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastr: ToastrService // Inject ToastrService
   ) {}
 
   async handleLogin() {
@@ -31,30 +33,28 @@ export class LoginComponent {
     console.log('Password:', this.password);
 
     try {
-      // Sign in the user with Firebase Authentication
       const userCredential = await signInWithEmailAndPassword(this.auth, this.email, this.password);
       const { user } = userCredential;
       console.log('Login successful:', user);
 
-      // Now retrieve additional user details from Firestore
       const userDocRef = doc(this.firestore, `Authorized/${user.uid}`);
       const userDoc = await getDoc(userDocRef);
 
       if (userDoc.exists()) {
-        const userData = userDoc.data(); // Get the document data
+        const userData = userDoc.data();
         console.log('User data from Firestore:', userData);
 
-        // Store user data in the AuthService
         this.authService.setUser({ ...user, ...userData });
 
-        alert('Login successful! User verified.');
+        // Use toastr for success notification
+        this.toastr.success('Login successful! User verified.', 'Success');
 
-        // Navigate to the dashboard
         this.router.navigate(['/dashboard']);
       } else {
         this.errorMessage = 'User not found in Firestore. Please contact support.';
         console.error('User not found in Firestore:', this.email);
         await this.auth.signOut();
+        this.toastr.error(this.errorMessage, 'Error');
       }
     } catch (error) {
       if (error instanceof FirebaseError) {
@@ -63,6 +63,9 @@ export class LoginComponent {
         this.errorMessage = 'An unexpected error occurred. Please try again.';
       }
       console.error('Login error:', error);
+
+      // Use toastr for error notification
+      this.toastr.error(this.errorMessage, 'Login Failed');
     }
   }
 }

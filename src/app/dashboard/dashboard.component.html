@@ -142,6 +142,20 @@
           </button>
         </div>
       </li>
+      <li (click)="logout()">
+        <div >
+          <a
+          class="lgout"
+            href="#"
+            (click)="$event.preventDefault()"
+          >
+            Logout
+          </a>
+          <button class="btn btn-outline-danger btn-sm">
+            <i class="fa-solid fa-sign-out-alt"></i>
+          </button>
+        </div>
+      </li>
     </ul>
   </div>
   <main class="window-main">

@@ -3,14 +3,10 @@ import { Firestore, doc, getDoc, setDoc } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Doctor } from '../models/doctor.interface';
 import { AuthService } from '../auth-service.service';
-import {
-  getDownloadURL,
-  ref,
-  uploadBytes,
-  getStorage,
-} from '@angular/fire/storage';
+import { getDownloadURL, ref, uploadBytes, getStorage } from '@angular/fire/storage';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr'; // Import ToastrService
 
 @Component({
   selector: 'app-edit-doctor-profile',
@@ -25,7 +21,12 @@ export class EditDoctorProfileComponent implements OnInit {
   errorMessage: string = '';
   selectedImage: File | null = null; // Store the selected file
 
-  constructor(private firestore: Firestore, private router: Router, private authService: AuthService) {}
+  constructor(
+    private firestore: Firestore,
+    private router: Router,
+    private authService: AuthService,
+    private toastr: ToastrService // Inject ToastrService
+  ) {}
 
   async ngOnInit(): Promise<void> {
     const user = this.authService.getUser();
@@ -36,9 +37,11 @@ export class EditDoctorProfileComponent implements OnInit {
         this.updatedDoctor = { uid: user.uid, ...doctorSnapshot.data() } as Doctor;
       } else {
         console.error('Doctor document not found.');
+        this.toastr.error('Doctor document not found.', 'Error');
       }
     } else {
       console.error('User not found. Cannot set uid in updatedDoctor.');
+      this.toastr.error('User not found. Please log in again.', 'Error');
     }
   }
 
@@ -59,11 +62,16 @@ export class EditDoctorProfileComponent implements OnInit {
 
       const doctorDocRef = doc(this.firestore, `doctor/${this.updatedDoctor.uid}`);
       await setDoc(doctorDocRef, this.updatedDoctor, { merge: true }); // Update with merge option
-      alert('Profile updated successfully!');
+      
+      // Use toastr for success notification
+      this.toastr.success('Profile updated successfully!', 'Success');
       this.router.navigate(['/login']); // Navigate back to the dashboard
     } catch (error) {
       this.errorMessage = 'Error updating profile. Please try again.';
       console.error('Error updating profile:', error);
+
+      // Use toastr for error notification
+      this.toastr.error(this.errorMessage, 'Error');
     }
   }
 
@@ -75,6 +83,7 @@ export class EditDoctorProfileComponent implements OnInit {
       return await getDownloadURL(snapshot.ref);
     } catch (error) {
       console.error('Error uploading image:', error);
+      this.toastr.error('Error uploading image. Please try again.', 'Error');
       throw error;
     }
   }
