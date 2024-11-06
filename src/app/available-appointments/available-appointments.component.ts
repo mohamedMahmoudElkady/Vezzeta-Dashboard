@@ -17,6 +17,7 @@ import {
 } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr'; // Import ToastrService
+import { arrayRemove } from 'firebase/firestore';
 
 @Component({
   selector: 'app-available-appointments',
@@ -78,6 +79,25 @@ export class AvailableAppointmentsComponent implements OnInit {
             this.toastr.error('Error adding appointment. Please try again.', 'Error');
           });
       }
+    }
+  }
+  removeAppointment(index: number) {
+    const currentUser = this.authService.getUser();
+    if (currentUser) {
+      const doctorRef = doc(this.firestore, 'doctor', currentUser.uid);
+      const appointmentToRemove = this.availableAppointments[index];
+
+      updateDoc(doctorRef, {
+        availableAppointments: arrayRemove(appointmentToRemove),
+      })
+        .then(() => {
+          this.toastr.success('Appointment removed successfully!', 'Success');
+          this.availableAppointments.splice(index, 1);
+        })
+        .catch((error) => {
+          console.error('Error removing appointment: ', error);
+          this.toastr.error('Error removing appointment. Please try again.', 'Error');
+        });
     }
   }
 }
