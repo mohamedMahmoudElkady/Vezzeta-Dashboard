@@ -71,4 +71,34 @@ export class DoctorsScreenComponent implements OnInit {
       this.toastr.error('Error deleting doctor. Please try again.', 'Error');
     }
   }
+  async banDoctor(doctorId: string) {
+    try {
+      const doctorDoc = doc(this.firestore, 'doctor', doctorId);
+      await updateDoc(doctorDoc, { 
+        banned: true // Add new field to indicate ban 
+      });
+      console.log('Doctor banned:', doctorId);
+      this.toastr.success('Doctor banned successfully!', 'Success');
+      this.fetchDoctors(); // Refresh the doctor list
+    } catch (error) {
+      console.error('Error banning doctor:', error);
+      this.toastr.error('Error banning doctor. Please try again.', 'Error');
+    }
+  }
+  
+  async unbanDoctor(doctorId: string) {
+    try {
+      const doctorDoc = doc(this.firestore, 'doctor', doctorId);
+      await updateDoc(doctorDoc, { 
+        banned: false // Update new field to indicate unban 
+      });
+      console.log('Doctor unbanned:', doctorId);
+      this.toastr.success('Doctor unsuspended successfully!', 'Success');
+      this.fetchDoctors(); // Refresh the doctor list to update UI
+    } catch (error) {
+      console.error('Error unsuspending doctor:', error);
+      this.toastr.error('Error unsuspending doctor. Please try again.', 'Error');
+    }
+  }
+  
 }

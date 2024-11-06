@@ -42,8 +42,11 @@
           </p>
           <p><i class="fa-solid fa-phone"></i> Phone: {{ user.phone }}</p>
           <div class="icons">
-            <i class="fa-solid fa-pen-to-square" (click)="editUser(user)"></i>
+            <div class="tooltip-container">
+          <!-- <i class="fa-solid fa-pen-to-square" (click)="editUser(user)"></i>  -->
             <i class="fa-solid fa-trash" (click)="deleteUser(user.id)"></i>
+            <span class="custom-tooltip">deleting this user will erase his data <strong class="text-danger">completely</strong></span>
+          </div>
           </div>
         </ng-template>
       </div>

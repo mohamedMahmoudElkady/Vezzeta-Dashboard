@@ -47,8 +47,9 @@ i{
 p>i{
     font-size: 20px;
 }
-.icons>i{
-    font-size: 20px;
+.tooltip-container>i{
+    font-size: 25px;
+    font-weight: bold;
 }
 .icons>.fa-pen-to-square:hover{
     color: green;
@@ -56,3 +57,35 @@ p>i{
 .icons>.fa-trash:hover{
     color: red;
 }
+.tooltip-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .custom-tooltip {
+    visibility: hidden;
+    width: 200px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Position above the icon */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .tooltip-container:hover .custom-tooltip {
+    visibility: visible;
+    opacity: 1;
+  }
+  .tooltip-container>fa-ban:hover{
+    color: red;
+  }
+  .tooltip-container>fa-circle-check:hover{
+    color: green;
+  }  
