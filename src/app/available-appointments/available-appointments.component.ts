@@ -16,6 +16,7 @@ import {
   Timestamp,
 } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr'; // Import ToastrService
 
 @Component({
   selector: 'app-available-appointments',
@@ -31,7 +32,8 @@ export class AvailableAppointmentsComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private firestore: Firestore
+    private firestore: Firestore,
+    private toastr: ToastrService // Inject ToastrService
   ) {
     this.appointmentForm = this.fb.group({
       appointmentDate: ['', Validators.required],
@@ -67,12 +69,13 @@ export class AvailableAppointmentsComponent implements OnInit {
           availableAppointments: arrayUnion(appointmentDate),
         })
           .then(() => {
-            console.log('Appointment added successfully');
+            this.toastr.success('Appointment added successfully!', 'Success');
             this.availableAppointments.push(appointmentDate);
             this.appointmentForm.reset();
           })
           .catch((error) => {
             console.error('Error adding appointment: ', error);
+            this.toastr.error('Error adding appointment. Please try again.', 'Error');
           });
       }
     }
