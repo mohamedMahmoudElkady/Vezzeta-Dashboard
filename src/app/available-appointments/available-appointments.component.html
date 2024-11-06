@@ -23,12 +23,16 @@
         <tr>
           <th>#</th>
           <th>Appointment Date and Time</th>
+          <th>Remove</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let appointment of availableAppointments; let i = index">
           <td>{{ i + 1 }}</td>
           <td>{{ appointment.toDate() | date: 'medium' }}</td>
+          <td>
+            <button class="btn btn-danger" (click)="removeAppointment(i)">Remove <i class="fa-solid fa-xmark"></i></button>
+          </td>
         </tr>
       </tbody>
     </table>
